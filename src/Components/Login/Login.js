@@ -1,106 +1,166 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Login.css';
+import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../config';
 
-export default function Login() {
+const Login = () => {
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   });
+  const [errors, setErrors] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
 
-  const [errors, setErrors] = useState({});
-
-  const validate = () => {
-    const newErrors = {};
-
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Invalid email format';
+  // Check if user is already authenticated
+  useEffect(() => {
+    if (sessionStorage.getItem("auth-token")) {
+      navigate("/");
     }
+  }, [navigate]);
 
-    if (!formData.password.trim()) {
-      newErrors.password = 'Password is required';
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const handleChange = e => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = e => {
+  const login = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      alert('Login Successful!');
-      // Logic for actual login (e.g., API call) goes here
+    setErrors([]);
+    setIsSubmitting(true);
+
+    try {
+      const res = await fetch(`${API_URL}/api/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        if (json.errors) {
+          // Handle validation errors
+          const validationErrors = json.errors.map(err => err.msg);
+          setErrors(validationErrors);
+        } else if (json.error) {
+          // Handle single error message
+          setErrors([json.error]);
+        } else {
+          setErrors(['Login failed. Please try again.']);
+        }
+        return;
+      }
+
+      if (json.authtoken) {
+        sessionStorage.setItem('auth-token', json.authtoken);
+        sessionStorage.setItem('email', formData.email);
+        
+        // Fetch user data to store name and phone
+        const userRes = await fetch(`${API_URL}/api/auth/user`, {
+          headers: {
+            'email': formData.email
+          }
+        });
+        
+        if (userRes.ok) {
+          const userData = await userRes.json();
+          sessionStorage.setItem('name', userData.name);
+          sessionStorage.setItem('phone', userData.phone);
+        }
+
+        navigate('/');
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setErrors(['Network error. Please check your connection.']);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="container">
+    <div className="container" style={{ marginTop: '5%' }}>
       <div className="login-grid">
-        <div className="login-text">
-          <h2>Login</h2>
-        </div>
-
-        <div className="login-text">
-          Are you a new member?{' '}
-          <span>
-            <a href="../Sign_Up/Sign_Up.html" style={{ color: '#2190FF' }}>
-              Sign Up Here
-            </a>
-          </span>
-        </div>
-
-        <br />
-
         <div className="login-form">
-          <form onSubmit={handleSubmit}>
+          <div className="login-header">
+            <h2>Login</h2>
+            <p className="login-subheader">
+              Are you a new member?{' '}
+              <Link to="/signup" style={{ color: '#2190FF' }}>
+                Sign Up Here
+              </Link>
+            </p>
+          </div>
+          
+          {errors.length > 0 && (
+            <div className="alert alert-danger">
+              <ul style={{ marginBottom: 0 }}>
+                {errors.map((error, index) => (
+                  <li key={index}>{error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          <form onSubmit={login}>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input
-                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 type="email"
+                name="email"
+                id="email"
                 className="form-control"
                 placeholder="Enter your email"
-                onChange={handleChange}
+                required
               />
-              {errors.email && <span className="error">{errors.email}</span>}
             </div>
-
+            
             <div className="form-group">
               <label htmlFor="password">Password</label>
               <input
-                name="password"
+                value={formData.password}
+                onChange={handleChange}
                 type="password"
+                name="password"
+                id="password"
                 className="form-control"
                 placeholder="Enter your password"
-                onChange={handleChange}
+                required
               />
-              {errors.password && <span className="error">{errors.password}</span>}
             </div>
-
-            <div className="btn-group">
+            
+            <div className="form-group">
               <button
                 type="submit"
-                className="btn btn-primary mb-2 mr-1 waves-effect waves-light"
+                className="btn btn-primary btn-block"
+                disabled={isSubmitting}
               >
-                Login
-              </button>
-              <button
-                type="reset"
-                className="btn btn-danger mb-2 waves-effect waves-light"
-              >
-                Reset
+                {isSubmitting ? 'Logging in...' : 'Login'}
               </button>
             </div>
-
-            <br />
-
-            <div className="login-text">Forgot Password?</div>
+            
+            <div className="text-center mt-3">
+              <Link to="/forgot-password" style={{ color: '#2190FF' }}>
+                Forgot Password?
+              </Link>
+            </div>
           </form>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default Login;
