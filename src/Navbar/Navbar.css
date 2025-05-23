@@ -1,0 +1,211 @@
+/*CSS RESET*/
+*,
+*::before,
+*::after{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+/*CSS FORM RESET*/
+input, textarea, select, button, meter, progress{
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none; 
+    box-sizing: border-box; 
+    background-color: transparent;
+    font-family: inherit; 
+}
+button, input[type="submit"], input[type="button"] {
+    cursor: pointer;
+    background-color: transparent;
+}
+input[type="checkbox"], input[type="radio"] {
+    vertical-align: middle;
+}
+select {
+    appearance: none;
+    background-image: none;
+}
+textarea {
+    resize: vertical;
+}
+
+label, form, button, input{
+    display: block;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number]{
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+/* Main Navigation Bar */
+nav {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ffffff;
+    z-index: 1000;
+}
+
+/* Logo */
+.nav__logo {
+    font-size: 2rem;
+    font-weight: 600;
+    color: #0d213f;
+    cursor: pointer;
+}
+
+.nav__logo span {
+    color: #3685fb;
+}
+
+/* Navigation Links */
+.nav__links {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.link a {
+    padding: 0 1rem;
+    color: #0d213f;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.link a:hover {
+    color: #3685fb;
+}
+
+/* Responsive Nav Icon (Hamburger) */
+.nav__icon {
+    display: none;
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    display: none;
+    min-width: 120px;
+    padding: 8px 0;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.welcome-user {
+    position: relative;
+    cursor: pointer;
+}
+
+.welcome-user:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu li {
+    width: 150px;
+    padding: 5px;
+}
+
+.dropdown-menu li a {
+    color: #333333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.dropdown-menu li a:hover {
+    color: #2190ff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav__logo {
+        margin-right: auto;
+    }
+
+    .nav__icon {
+        display: block;
+    }
+
+    .nav__links {
+        display: none;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .nav__links.active {
+        display: flex;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        padding: 1rem 0;
+        margin: auto;
+        background-color: #ffffff;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        flex-direction: column;
+        align-items: center;
+        z-index: 999;
+        animation: slideDown 0.5s ease-in-out;
+    }
+}
+
+/* Animation */
+@keyframes slideDown {
+    0% {
+        transform: translateY(-10px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Buttons */
+.btn1, .btn2 {
+    border: 2px solid #3685fb;
+    background-color: #ffffff;
+    color: #000000;
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    padding: 8px 20px;
+}
+
+.btn1:hover,
+.btn2:hover {
+    background-color: #3685fb;
+    color: #ffffff;
+}
+
+.btn2 {
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3px;
+}
