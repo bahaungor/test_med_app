@@ -4,11 +4,12 @@ import React, { useEffect } from 'react';
 // Import components for routing from react-router-dom library
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Import custom Navbar component
+// Import components
 import Navbar from './Components/Navbar/Navbar';
 import Landing_page from './Components/Landing_Page/Landing_Page';
 import SignUp from './Components/Sign_Up/Sign_Up';
 import Login from './Components/Login/Login';
+import InstantConsultation from './Components/InstantConsultationBooking/InstantConsultation';
 
 // Function component for the main App
 function App() {
@@ -26,6 +27,7 @@ function App() {
             <Route path="/" element={<Landing_page />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/instant-consultation" element={<InstantConsultation />} />
           </Routes>
         </BrowserRouter>
     </div>
