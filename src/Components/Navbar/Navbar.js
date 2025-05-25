@@ -61,6 +61,7 @@ const Navbar = () => {
                     <Link to="/reviews">Reviews</Link>
                 </li>
                 {isLoggedIn ? (
+                    <Link to="/profile">
                     <li className="link">
                         <div className="user-container">
                             <span className="username">Hello, {username}</span>
@@ -69,6 +70,7 @@ const Navbar = () => {
                             </button>
                         </div>
                     </li>
+                    </Link>
                 ) : (
                     <>
                         <li className="link">
