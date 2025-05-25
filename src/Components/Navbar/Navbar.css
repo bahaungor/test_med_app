@@ -48,17 +48,14 @@ input[type=number]{
 
 /* Main Navigation Bar */
 nav {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
     width: 100%;
-    padding: 1.5rem;
+    padding: 1rem;
+    height: 64px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #ffffff;
-    z-index: 1000;
+    margin-bottom: 80px;
 }
 
 /* Logo */

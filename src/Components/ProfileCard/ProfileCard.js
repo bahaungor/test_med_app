@@ -1,5 +1,3 @@
-// Following code has been commented with appropriate comments for your reference. 
-// Import necessary modules from React and other files
 import React, { useEffect, useState } from "react";
 import { API_URL } from "../../config";
 import { useNavigate } from "react-router-dom";
@@ -116,12 +114,13 @@ const ProfileForm = () => {
     <div className="profile-container">
       {editMode ? (
         <form onSubmit={handleSubmit}>
-            <label>
+        <label>
          Name
          <input
            type="text"
            name="name"
-           value={updatedDetails.name}
+        //    value={updatedDetails.name}
+        
            onChange={handleInputChange}
          />
        </label>

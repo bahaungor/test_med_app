@@ -34,6 +34,7 @@ function App() {
             <Route path="/reviews" element={<ReviewForm />} />
             <Route path="/profile" element={<ProfileForm />} />
             <Route path="/instant-consultation" element={<InstantConsultation />} />
+            <Route path="/search/doctors" element={<InstantConsultation />} />
           </Routes>
           </Notification>
         </BrowserRouter>

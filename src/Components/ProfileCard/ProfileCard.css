@@ -7,8 +7,6 @@
     padding: 20px; /* Add 20 pixels of padding inside the container */
     background-color: #f5f5f5; /* Set the background color of the container to light gray */
     border-radius: 4px; /* Apply a border radius of 4 pixels to round the corners */
-    margin-top: 250px;
-    padding-top: 250px;
 }
 
 /* Styles for the heading within the profile container */
@@ -24,7 +22,7 @@
 /* Styles for labels within the profile container */
 .profile-container label {
     display: block; /* Display labels as block elements to stack them vertically */
-    margin-bottom: 10px; /* Add a bottom margin of 10 pixels to separate labels */
+    margin-bottom: 50px; /* Add a bottom margin of 10 pixels to separate labels */
 }
 
 /* Styles for text and email input fields within the profile container */
